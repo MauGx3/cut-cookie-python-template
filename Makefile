@@ -1,41 +1,8 @@
-.PHONY: bake
-bake: ## bake without inputs and overwrite if exists.
-	@uv run cookiecutter --no-input . --overwrite-if-exists
-
-.PHONY: bake-src
-bake-src: ## bake without inputs and overwrite if exists.
-	@uv run cookiecutter --no-input . --overwrite-if-exists layout="src"
-
-.PHONY: bake-with-inputs
-bake-with-inputs: ## bake with inputs and overwrite if exists.
-	@uv run cookiecutter . --overwrite-if-exists
-
-.PHONY: bake-and-test-deploy
-bake-and-test-deploy: ## For quick publishing to cookiecutter-uv-example to test GH Actions
-	@rm -rf cookiecutter-uv-example || true
-	@uv run cookiecutter --no-input . --overwrite-if-exists \
-		author="Florian Maas" \
-		email="fpgmaas@gmail.com" \
-		github_author_handle=fpgmaas \
-		project_name=cookiecutter-uv-example \
-		project_slug=cookiecutter_uv_example
-	@cd cookiecutter-uv-example; uv sync && \
-		git init -b main && \
-		git add . && \
-		uv run pre-commit install && \
-		uv run pre-commit run -a || true && \
-		git add . && \
-		uv run pre-commit run -a || true && \
-		git add . && \
-		git commit -m "init commit" && \
-		git remote add origin git@github.com:fpgmaas/cookiecutter-uv-example.git && \
-		git push -f origin main
-
-
 .PHONY: install
-install: ## Install the virtual environment
-	@echo "🚀 Creating virtual environment"
+install: ## Install the virtual environment and install the pre-commit hooks
+	@echo "🚀 Creating virtual environment using uv"
 	@uv sync
+	@uv run pre-commit install
 
 .PHONY: check
 check: ## Run code quality tools.
@@ -43,15 +10,21 @@ check: ## Run code quality tools.
 	@uv lock --locked
 	@echo "🚀 Linting code: Running pre-commit"
 	@uv run pre-commit run -a
-	@echo "🚀 Static type checking: Running mypy"
-	@uv run mypy
+	@echo "🚀 Static type checking: Running {{ cookiecutter.type_checker }}"
+	@uv run {% if cookiecutter.type_checker == "mypy" %}mypy{% else %}ty check{% endif %}
+{%- if cookiecutter.deptry == 'y' %}
 	@echo "🚀 Checking for obsolete dependencies: Running deptry"
-	@uv run deptry .
+	@uv run deptry {% if cookiecutter.layout == "src" %}src{% else %}.{% endif %}
+{%- endif %}
 
 .PHONY: test
-test: ## Test the code with pytest.
+test: ## Test the code with pytest
 	@echo "🚀 Testing code: Running pytest"
-	@uv run python -m pytest --cov --cov-config=pyproject.toml --cov-report=xml tests
+{%- if cookiecutter.codecov == "y"%}
+	@uv run python -m pytest --cov --cov-config=pyproject.toml --cov-report=xml
+{%- else %}
+	@uv run python -m pytest --doctest-modules
+{%- endif%}
 
 .PHONY: build
 build: clean-build ## Build wheel file
@@ -63,15 +36,18 @@ clean-build: ## Clean build artifacts
 	@echo "🚀 Removing build artifacts"
 	@uv run python -c "import shutil; import os; shutil.rmtree('dist') if os.path.exists('dist') else None"
 
+{%- if cookiecutter.publish_to_pypi == "y"%}
+
 .PHONY: publish
 publish: ## Publish a release to PyPI.
-	@echo "🚀 Publishing: Dry run."
-	@uvx --from build pyproject-build --installer uv
 	@echo "🚀 Publishing."
 	@uvx twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
 
 .PHONY: build-and-publish
 build-and-publish: build publish ## Build and publish.
+{%- endif%}
+
+{%- if cookiecutter.mkdocs == "y" %}
 
 .PHONY: docs-test
 docs-test: ## Test if documentation can be built without warnings or errors
@@ -80,6 +56,8 @@ docs-test: ## Test if documentation can be built without warnings or errors
 .PHONY: docs
 docs: ## Build and serve the documentation
 	@uv run mkdocs serve
+
+{%- endif %}
 
 .PHONY: help
 help:

@@ -8,19 +8,33 @@ PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
 
 
 def remove_file(filepath: str) -> None:
-    os.remove(os.path.join(PROJECT_DIRECTORY, filepath))
+    path = os.path.join(PROJECT_DIRECTORY, filepath)
+    if os.path.exists(path):
+        os.remove(path)
 
 
 def remove_dir(filepath: str) -> None:
-    shutil.rmtree(os.path.join(PROJECT_DIRECTORY, filepath))
+    path = os.path.join(PROJECT_DIRECTORY, filepath)
+    if os.path.exists(path):
+        shutil.rmtree(path)
 
 
 def move_file(filepath: str, target: str) -> None:
-    os.rename(os.path.join(PROJECT_DIRECTORY, filepath), os.path.join(PROJECT_DIRECTORY, target))
+    src = os.path.join(PROJECT_DIRECTORY, filepath)
+    dst = os.path.join(PROJECT_DIRECTORY, target)
+    if os.path.exists(src):
+        # Ensure target directory exists
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        os.rename(src, dst)
 
 
 def move_dir(src: str, target: str) -> None:
-    shutil.move(os.path.join(PROJECT_DIRECTORY, src), os.path.join(PROJECT_DIRECTORY, target))
+    src_path = os.path.join(PROJECT_DIRECTORY, src)
+    dst_path = os.path.join(PROJECT_DIRECTORY, target)
+    if os.path.exists(src_path):
+        # Ensure target directory parent exists
+        os.makedirs(os.path.dirname(dst_path), exist_ok=True)
+        shutil.move(src_path, dst_path)
 
 
 if __name__ == "__main__":

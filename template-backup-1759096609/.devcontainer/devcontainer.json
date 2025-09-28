@@ -1,14 +1,12 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-    "name": "{{cookiecutter.project_name}}",
+    "name": "Cookiecutter uv",
     // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
     "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
-    "runArgs": [
-        // avoid UID/GID remapping under rootless Podman
-        "--userns=keep-id"
-      ],
-    "features": {},
+    "features": {
+        "ghcr.io/devcontainers-contrib/features/cookiecutter:2": {}
+    },
 
     // Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
@@ -21,8 +19,8 @@
                 "python.testing.pytestArgs": ["tests"],
                 "python.testing.unittestEnabled": false,
                 "python.testing.pytestEnabled": true,
-                "python.defaultInterpreterPath": "/workspaces/{{cookiecutter.project_name}}/.venv/bin/python",
-                "python.testing.pytestPath": "/workspaces/{{cookiecutter.project_name}}/.venv/bin/pytest"
+                "python.defaultInterpreterPath": "/workspaces/cookiecutter-uv/.venv/bin/python",
+                "python.testing.pytestPath": "/workspaces/cookiecutter-uv/.venv/bin/pytest"
             }
         }
     }
