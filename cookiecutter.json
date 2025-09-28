@@ -10,32 +10,32 @@
     "src"
   ],
   "include_github_actions": [
-    "y",
-    "n"
+    true,
+    false
   ],
   "publish_to_pypi": [
-    "y",
-    "n"
+    true,
+    false
   ],
   "deptry": [
-    "y",
-    "n"
+    true,
+    false
   ],
   "mkdocs": [
-    "y",
-    "n"
+    true,
+    false
   ],
   "codecov": [
-    "y",
-    "n"
+    true,
+    false
   ],
   "dockerfile": [
-    "y",
-    "n"
+    true,
+    false
   ],
   "devcontainer": [
-    "y",
-    "n"
+    true,
+    false
   ],
   "type_checker": [
     "mypy",
@@ -58,15 +58,60 @@
     "project_name": "Project name",
     "project_slug": "Project package/module name",
     "project_description": "Short project description",
-    "layout": "Package layout (flat or src)",
-    "include_github_actions": "Include GitHub Actions workflows?",
-    "publish_to_pypi": "Enable PyPI publishing config?",
-    "deptry": "Include deptry configuration?",
-    "mkdocs": "Include MkDocs documentation?",
-    "codecov": "Include Codecov config?",
-    "dockerfile": "Include Dockerfile?",
-    "devcontainer": "Include devcontainer?",
-    "type_checker": "Type checker to configure",
-    "open_source_license": "Select an open source license"
+    "layout": {
+      "__prompt__": "Package layout",
+      "flat": "Flat (package at repository root)",
+      "src": "src/ (package under src/)"
+    },
+    "include_github_actions": {
+      "__prompt__": "Include GitHub Actions workflows?",
+      "true": "Yes",
+      "false": "No"
+    },
+    "publish_to_pypi": {
+      "__prompt__": "Enable PyPI publishing config?",
+      "true": "Yes",
+      "false": "No"
+    },
+    "deptry": {
+      "__prompt__": "Include deptry configuration?",
+      "true": "Yes",
+      "false": "No"
+    },
+    "mkdocs": {
+      "__prompt__": "Include MkDocs documentation?",
+      "true": "Yes",
+      "false": "No"
+    },
+    "codecov": {
+      "__prompt__": "Include Codecov configuration?",
+      "true": "Yes",
+      "false": "No"
+    },
+    "dockerfile": {
+      "__prompt__": "Include Dockerfile?",
+      "true": "Yes",
+      "false": "No"
+    },
+    "devcontainer": {
+      "__prompt__": "Include devcontainer?",
+      "true": "Yes",
+      "false": "No"
+    },
+    "type_checker": {
+      "__prompt__": "Type checker to configure",
+      "mypy": "mypy",
+      "pyright": "pyright",
+      "none": "None"
+    },
+    "open_source_license": {
+      "__prompt__": "Select an open source license",
+      "MIT license": "MIT",
+      "BSD license": "BSD",
+      "ISC license": "ISC",
+      "Apache Software License 2.0": "Apache-2.0",
+      "GNU General Public License v3": "GPLv3",
+      "Not open source": "Not open source"
+    }
   }
 }
