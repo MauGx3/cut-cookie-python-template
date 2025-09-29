@@ -1,3 +1,41 @@
+# Contributing to this Cookiecutter template
+
+Thanks for helping improve the template. This CONTRIBUTING guide explains how to safely update template variables, hooks, and tests.
+
+Local validation
+----------------
+
+1. Install cookiecutter in a virtualenv: `python3 -m pip install --upgrade pip cookiecutter`
+2. Run the template non-interactively using one of the extra-context files in `.github/ci/extra_contexts/`:
+
+```
+python3 -m cookiecutter . --no-input --directory=template --output-dir /tmp/generated --extra-context-file .github/ci/extra_contexts/empty.json
+```
+
+3. Run the programmatic tests in `tests/` (these will be added in CI).
+
+Editing `cookiecutter.json`
+---------------------------
+
+- When adding a new variable, include a default value and update `template/README.md` to document the variable and the prompt shown to users.
+- Prefer booleans (true/false) rather than 'y'/'n' strings for binary choices to simplify Jinja conditionals and non-interactive runs.
+- If you add `_extensions`, ensure the extension is available in CI or guard its use in the templates.
+
+Hooks
+-----
+
+- Keep hooks idempotent and defensive. Always check for file existence before removing or moving files.
+- Prefer to keep complex logic inside functions that are easy to unit test.
+
+CI
+--
+
+- The project includes a cookiecutter smoke test workflow that runs the template with a small matrix of contexts. Add additional context files under `.github/ci/extra_contexts/` and include them in the workflow strategy matrix to extend coverage.
+
+Archival backups
+----------------
+
+- If you need to restore the previous flattened content, request the `archive/template-backup-1759096609` branch (if present) or reach out to maintainers.
 # Contributing to `{{cookiecutter.project_name}}`
 
 Contributions are welcome, and they are greatly appreciated!

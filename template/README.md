@@ -1,3 +1,43 @@
+This folder contains the Cookiecutter template used to generate new projects.
+
+Usage
+-----
+
+Non-interactive (CI):
+
+    python3 -m cookiecutter . --no-input --directory=template --output-dir /tmp/generated --extra-context-file .github/ci/extra_contexts/empty.json
+
+Interactive:
+
+    cookiecutter /path/to/repo --directory=template
+
+Variables (defined in `cookiecutter.json`)
+-----------------------------------------
+
+Below are the variables you will be prompted for (or can override with extra-context):
+
+- author: Author full name (default: value in cookiecutter.json)
+- email: Author email
+- author_github_handle: GitHub handle for the author
+- project_name: Project display name
+- project_slug: Package/module name (derived from project_name by default)
+- project_description: Short description of the project
+- layout: "flat" or "src" — where the package code lives
+- include_github_actions: true/false — include GitHub Actions workflows
+- publish_to_pypi: true/false — include PyPI publishing configuration
+- deptry: true/false — include deptry configuration
+- mkdocs: true/false — include MkDocs site skeleton
+- codecov: true/false — include Codecov config
+- dockerfile: true/false — include a Dockerfile
+- devcontainer: true/false — include a devcontainer configuration
+- type_checker: one of [mypy, pyright, none]
+- open_source_license: license choice (MIT, BSD, ISC, Apache-2.0, GPLv3, Not open source)
+
+Notes
+-----
+
+- This README documents the template itself; the repository root README documents the repository.
+- If you update `cookiecutter.json`, update this file to keep prompts and defaults in sync.
 # {{cookiecutter.project_name}}
 
 [![Release](https://img.shields.io/github/v/release/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})](https://img.shields.io/github/v/release/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}})
