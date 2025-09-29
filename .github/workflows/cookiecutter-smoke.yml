@@ -1,4 +1,4 @@
-name: Cookiecutter smoke test
+name: Cookiecutter smoke tests
 
 on:
   push:
@@ -9,6 +9,9 @@ on:
 jobs:
   cookiecutter-smoke:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        context-file: [".github/ci/extra_contexts/empty.json", ".github/ci/extra_contexts/no_docs_mit.json", ".github/ci/extra_contexts/docs_apache_pyright.json"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,11 +26,70 @@ jobs:
           python -m pip install --upgrade pip
           pip install cookiecutter
 
-      - name: Run cookiecutter (no-input)
+      - name: Show context file
         run: |
-          mkdir generated
+          echo "Using context file: ${{ matrix.context-file }}"
+          cat ${{ matrix.context-file }}
+
+      - name: Run cookiecutter (matrix)
+        run: |
+          mkdir -p generated
+          python3 -m cookiecutter . --no-input --directory=template --output-dir generated --extra-context-file "${{ matrix.context-file }}"
+
+      - name: List generated for matrix item
+        run: |
+          echo "Generated files for matrix item:" && ls -la generated || true
+name: Cookiecutter smoke tests
+
+name: Cookiecutter smoke tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  cookiecutter-smoke:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        extra_context: ["{}", "{\"include_docs\": false, \"license\": \"MIT\"}", "{\"include_docs\": true, \"license\": \"Apache-2.0\", \"type_checker\": \"pyright\"}"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install cookiecutter
+        run: |
+          python -m pip install --upgrade pip
+          pip install cookiecutter
+
+      - name: Run cookiecutter (matrix)
+        run: |
+          echo "Using extra_context: ${{ matrix.extra_context }}"
+          mkdir -p generated
+          python3 -m cookiecutter . --no-input --directory=template --output-dir generated --extra-context "${{ matrix.extra_context }}"
+
+      - name: List generated for matrix item
+        run: |
+                python-version: '3.11'
           cookiecutter . --no-input --output-dir generated
 
       - name: List generated
         run: |
           echo "Generated files:" && ls -la generated || true
+=======
+          python-version: '3.x'
+
+      - name: Install cookiecutter
+        run: python -m pip install --upgrade pip && pip install cookiecutter
+
+      - name: Run cookiecutter smoke test
+        run: |
+          # Run cookiecutter pointing at the nested template directory
+          cookiecutter template --no-input --output-dir generated
+>>>>>>> Stashed changes

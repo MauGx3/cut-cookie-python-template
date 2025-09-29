@@ -1,0 +1,5 @@
+{
+  "include_docs": true,
+  "license": "Apache-2.0",
+  "type_checker": "pyright"
+}
