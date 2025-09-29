@@ -23,10 +23,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install cookiecutter
 
-      - name: Run cookiecutter (no-input)
+      - name: Run cookiecutter (no-input, template dir)
         run: |
-          mkdir generated
-          cookiecutter . --no-input --output-dir generated
+          mkdir -p generated
+          python3 -m cookiecutter . --no-input --directory=template --output-dir generated
 
       - name: List generated
         run: |

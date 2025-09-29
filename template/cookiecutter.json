@@ -1,0 +1,72 @@
+{
+  "author": "Florian Maas",
+  "email": "fpgmaas@gmail.com",
+  "author_github_handle": "fpgmaas",
+  "project_name": "cut-cookie-python",
+  "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
+  "project_description": "This is a template repository for Python projects that use uv for their dependency management and much more.",
+  "layout": [
+    "flat",
+    "src"
+  ],
+  "include_github_actions": [
+    "y",
+    "n"
+  ],
+  "publish_to_pypi": [
+    "y",
+    "n"
+  ],
+  "deptry": [
+    "y",
+    "n"
+  ],
+  "mkdocs": [
+    "y",
+    "n"
+  ],
+  "codecov": [
+    "y",
+    "n"
+  ],
+  "dockerfile": [
+    "y",
+    "n"
+  ],
+  "devcontainer": [
+    "y",
+    "n"
+  ],
+  "type_checker": [
+    "mypy",
+    "pyright",
+    "none"
+  ],
+  "open_source_license": [
+    "MIT license",
+    "BSD license",
+    "ISC license",
+    "Apache Software License 2.0",
+    "GNU General Public License v3",
+    "Not open source"
+  ]
+  ,
+  "__prompts__": {
+    "author": "Author full name",
+    "email": "Author email",
+    "author_github_handle": "Author GitHub handle",
+    "project_name": "Project name",
+    "project_slug": "Project package/module name",
+    "project_description": "Short project description",
+    "layout": "Package layout (flat or src)",
+    "include_github_actions": "Include GitHub Actions workflows?",
+    "publish_to_pypi": "Enable PyPI publishing config?",
+    "deptry": "Include deptry configuration?",
+    "mkdocs": "Include MkDocs documentation?",
+    "codecov": "Include Codecov config?",
+    "dockerfile": "Include Dockerfile?",
+    "devcontainer": "Include devcontainer?",
+    "type_checker": "Type checker to configure",
+    "open_source_license": "Select an open source license"
+  }
+}
